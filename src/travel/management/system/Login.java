@@ -3,6 +3,7 @@ package travel.management.system;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class Login extends JFrame implements ActionListener{
     
@@ -38,6 +39,42 @@ public class Login extends JFrame implements ActionListener{
         tfusername.setBounds(60, 60, 300, 30);
         tfusername.setBorder(BorderFactory.createEmptyBorder());
         p2.add(tfusername);
+        
+        JLabel lblpassword = new JLabel("Password");
+        lblpassword.setBounds(60, 110, 100, 25);
+        lblpassword.setFont(new Font("San_serif",Font.PLAIN, 20));
+        p2.add(lblpassword);
+        
+        JTextField tfpassword = new JTextField();
+        tfpassword.setBounds(60, 150, 300, 30);
+        tfpassword.setBorder(BorderFactory.createEmptyBorder());
+        p2.add(tfpassword);
+        
+        JButton login = new JButton("Login");
+        login.setBounds(60, 200, 130, 30);
+        login.setBackground(new Color(133, 193, 233));
+        login.setForeground(Color.white);
+        login.setBorder(new LineBorder(new Color(133, 193, 233)));
+        p2.add(login);
+        
+        JButton signup = new JButton("Signup");
+        signup.setBounds(230, 200, 130, 30);
+        signup.setBackground(new Color(133, 193, 233));
+        signup.setForeground(Color.white);
+        signup.setBorder(new LineBorder(new Color(133, 193, 233)));
+        p2.add(signup);
+        
+        JButton password = new JButton("Forgot Password");
+        password.setBounds(130, 250, 130, 30);
+        password.setBackground(new Color(133, 193, 233));
+        password.setForeground(Color.white);
+        password.setBorder(new LineBorder(new Color(133, 193, 233)));
+        p2.add(password);
+        
+        JLabel text = new JLabel("Trouble in login...");
+        text.setBounds(300, 250, 150, 20);
+        text.setForeground(Color.red);
+        p2.add(text);
         
         setBounds(350, 200, 900, 400);
         setVisible(true);
