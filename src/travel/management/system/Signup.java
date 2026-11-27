@@ -2,11 +2,15 @@ package travel.management.system;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
 import javax.swing.*;
 
 public class Signup extends JFrame implements ActionListener{
 
-    JTextField tfusername, tfname, tfpassword, tfanswer;
+    JTextField tfusername, tfname, tfanswer;
+    JPasswordField tfpassword;
+    Choice security;
+    JButton create, back;
     
     public Signup() {
         setBounds(350, 200, 900, 360);
@@ -44,7 +48,7 @@ public class Signup extends JFrame implements ActionListener{
         lblpassword.setBounds(50, 100, 125, 25);
         p1.add(lblpassword);
         
-        tfpassword = new JTextField();
+        tfpassword = new JPasswordField();
         tfpassword.setBounds(190, 100, 180, 25);
         tfpassword.setBorder(BorderFactory.createEmptyBorder());
         p1.add(tfpassword);
@@ -54,7 +58,7 @@ public class Signup extends JFrame implements ActionListener{
         lblsecurity.setBounds(50, 140, 130, 25);
         p1.add(lblsecurity);
         
-        Choice security = new Choice();
+        security = new Choice();
         security.add("Fav Character from Boys");
         security.add("Fav Marvel Superhero");
         security.add("Your Lucky Number");
@@ -72,20 +76,22 @@ public class Signup extends JFrame implements ActionListener{
         tfanswer.setBorder(BorderFactory.createEmptyBorder());
         p1.add(tfanswer);
         
-        JButton create = new JButton("Create");
+        create = new JButton("Create");
         create.setBounds(80, 250, 100, 30);
         create.setBackground(Color.white);
         create.setForeground(new Color(133, 193, 233));
         create.setFont(new Font("Tahoma", Font.BOLD, 14));
         create.setBorder(BorderFactory.createEmptyBorder());
+        create.addActionListener(this);
         p1.add(create);
         
-        JButton back = new JButton("Back");
+        back = new JButton("Back");
         back.setBounds(250, 250, 100, 30);
         back.setBackground(Color.white);
         back.setForeground(new Color(133, 193, 233));
         back.setFont(new Font("Tahoma", Font.BOLD, 14));
         back.setBorder(BorderFactory.createEmptyBorder());
+        back.addActionListener(this);
         p1.add(back);
         
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/signup.png"));
@@ -103,7 +109,43 @@ public class Signup extends JFrame implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == create) {
+            
+            String user = tfusername.getText();
+            try {
+                Conn conn = new Conn();
+                ResultSet rs = conn.s.executeQuery("Select * from account where username = '"+user+"'");
+                if (rs.next()) {
+                    
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Username Already exists");
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            String name = tfname.getText();
+            String pass = tfpassword.getText();
+            String question = security.getSelectedItem();
+            String answer = tfanswer.getText();
+            
+            try {
+                Conn conn = new Conn();
+                String update = "insert into account value('"+user+"','"+name+"','"+pass+"','"+question+"','"+answer+"')";
+                conn.s.executeUpdate(update);
+                setVisible(false);
+                JOptionPane.showMessageDialog(null, "Account Created Successfully");
+                new Login();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+        } else if(ae.getSource() == back) {
+            setVisible(false);
+            new Login();
+        }
     }
 }
